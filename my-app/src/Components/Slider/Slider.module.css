@@ -1,0 +1,28 @@
+.slider {
+    display: flex;
+    background-color: #E1E1E1; /* Цвет фона */
+    border-radius: 50px; /* Закругление контейнера */
+    padding: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: min-content;
+    margin-top:120px;
+  }
+  
+  .tab {
+    flex: 1;
+    border-radius: inherit; /* Закругление кнопок */
+    cursor: pointer;
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+  
+  .tab:hover:not(.active) {
+    background-color: #d4d4d4; /* Цвет при наведении */
+  }
+  
+  .active {
+    background-color: #b8fd61; /* Цвет активной вкладки */
+    color: black; /* Цвет текста активной вкладки */
+  }
+  

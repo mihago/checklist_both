@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <style>
+    * {
+      padding: 0px;
+      margin: 0px;
+      border: none;
+    }
+    html {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+    }
+    .checklist {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      grid-gap: 40px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+  
+    .categoryWrapper {
+      width: 40%;
+      min-width: 320px;
+      max-width: 400px;
+      padding-left: 20px;
+      padding-bottom: 20px;
+      padding-top: 10px;
+      padding-right: 20px;
+      border-radius: 20px;
+      flex-grow: 2;
+    }
+    .title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .itemsContainer {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+    }
+    .item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 4px;
+      position: relative;
+    }
+    .name {
+      word-wrap: break-word;
+      white-space: normal;
+      max-width: 280px;
+    }
+    .count {
+      margin-left: 10px;
+    }
+    .checkbox {
+      margin-right: 10px;
+      transform: scale(2);
+    }
+  </style>
+  <body>
+    <div class="checklist">
+      <!--INSERT-->
+    </div>
+  </body>
+</html>

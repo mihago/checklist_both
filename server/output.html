@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <style>
+    * {
+      padding: 0px;
+      margin: 0px;
+      border: none;
+    }
+    html {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+    }
+    .checklist {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      grid-gap: 40px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+  
+    .categoryWrapper {
+      width: 40%;
+      min-width: 320px;
+      max-width: 400px;
+      padding-left: 20px;
+      padding-bottom: 20px;
+      padding-top: 10px;
+      padding-right: 20px;
+      border-radius: 20px;
+      flex-grow: 2;
+    }
+    .title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .itemsContainer {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+    }
+    .item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 4px;
+      position: relative;
+    }
+    .name {
+      word-wrap: break-word;
+      white-space: normal;
+      max-width: 280px;
+    }
+    .count {
+      margin-left: 10px;
+    }
+    .checkbox {
+      margin-right: 10px;
+      transform: scale(2);
+    }
+  </style>
+  <body>
+    <div class="checklist">
+      
+        <div class="categoryWrapper" style="background: rgb(184,253,97,0.15)">
+          <div class="title">Гигиена</div>
+          <div class="itemsContainer">
+      
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Бутылка для воды</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Влажные салфетки</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Бумажные платочки</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Антисептик</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Лейкопластырь</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Бинт</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Болеутоляющие средства</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Капли в нос</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Таблетки для рассасывания от боли в горле</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Порошки от гриппа и простуды</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Средство от аллергии</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Перекись водорода</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Смекта</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Лекарства от специфических заболеваний</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Дезодорант</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Гель для душа (мини-вариант)</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Шампунь (мини-вариант)</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Полотенце</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Зубная паста</div>
+              
+            </div>
+        </div></div>
+        <div class="categoryWrapper" style="background: rgba(253,184,97,0.15)">
+          <div class="title">Одежда</div>
+          <div class="itemsContainer">
+      
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Нижнее бельё</div>
+              <span class="count">X 7</span>
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Носки</div>
+              <span class="count">X 7</span>
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Рубашка / футболка</div>
+              <span class="count">X 5</span>
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Брюки / джинсы</div>
+              <span class="count">X 2</span>
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Пижама</div>
+              <span class="count">X 2</span>
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Сланцы</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Ремень</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Кроссовки</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Комплект спортивной одежды</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Деловой комплект одежды</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Куртка на переходную погоду</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Ветровка</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Обувь на дождь</div>
+              
+            </div>
+        </div></div>
+        <div class="categoryWrapper" style="background: rgba(97,184,253,0.15)">
+          <div class="title">Документы</div>
+          <div class="itemsContainer">
+      
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Загранпаспорт</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Паспорт РФ</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Страховка</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Виза и другие документы</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Билеты на самолёт</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Запись необходимых по приезде адресов</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Наличные / банковская карта</div>
+              
+            </div>
+        </div></div>
+        <div class="categoryWrapper" style="background: rgba(253,97,184,0.15)">
+          <div class="title">Техника</div>
+          <div class="itemsContainer">
+      
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Ноутбук или планшет</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Наушники</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Зарядки для всех устройств</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Повербанк</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Блокнот и ручка</div>
+              
+            </div>
+        </div></div>
+        <div class="categoryWrapper" style="background: rgba(97,253,184,0.15)">
+          <div class="title">Прочее</div>
+          <div class="itemsContainer">
+      
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Целлофановые пакеты</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Настольная/карточная игра (Uno, Мафия)</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Постельное бельё</div>
+              
+            </div>
+        </div></div>
+        <div class="categoryWrapper" style="background: rgba(184,97,253,0.15  )">
+          <div class="title">Аксессуары</div>
+          <div class="itemsContainer">
+      
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Рюкзак / сумка</div>
+              
+            </div>
+        
+            <div class="item">
+              <input type="checkbox" class="checkbox" />
+              <div class="name">Зонт / дождевик</div>
+              
+            </div>
+        </div></div>
+    </div>
+  </body>
+</html>
