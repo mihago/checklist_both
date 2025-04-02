@@ -2,10 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./DropdownMenu.module.css"; // Подключаем стили
 import Button from "../Button/Button";
 
-const DropdownMenu = () => {
+interface DropdownMenuProps{
+  saveChecklist:()=>void;
+}
+const DropdownMenu = ({saveChecklist}:DropdownMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null); 
   const handleGeneratePdf = async () => {
+    await saveChecklist();
     const response = await fetch('http://localhost:3001/api/generatePDF', {
       method: 'POST',
       headers: {
