@@ -377,16 +377,6 @@ app.post("/api/generateToken", (req, res) => {
 
 app.post("/api/makeChecklist", async (req, res) => {
   const { token, place } = req.body;
-  const { data } = await axios.get(
-    `https://geocode-maps.yandex.ru/v1/?apikey=${process.env.API_KEY}&geocode=${place}&format=json`
-  );
-  const firstResult = data.response.GeoObjectCollection.featureMember[0];
-  const [lon, lat] = firstResult.GeoObject.Point.pos.split(" ");
-
-  const { data: site } = await axios.get(
-    `https://yandex.ru/pogoda/month/june?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
-  );
-  const weather = parseClimateData(site);
 
   if (!token) {
     return res.status(400).json({
@@ -396,9 +386,27 @@ app.post("/api/makeChecklist", async (req, res) => {
   }
 
   try {
+    const { data } = await axios.get(
+      `https://geocode-maps.yandex.ru/v1/?apikey=${process.env.API_KEY}&geocode=${place}&format=json`
+    );
+    const firstResult = data.response.GeoObjectCollection.featureMember[0];
+    const [lon, lat] = firstResult.GeoObject.Point.pos.split(" ");
+
+    const { data: site } = await axios.get(
+      `https://yandex.ru/pogoda/month/june?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
+    );
+    const weather = parseClimateData(site);
+    
+    // Check if the checklists folder exists, and create it if it doesn't
+    const checklistsDir = path.join(__dirname, "checklists");
+    if (!fs.existsSync(checklistsDir)) {
+      fs.mkdirSync(checklistsDir);
+    }
+
     const fileName = `${token}_checklist.json`;
     const fileContent = JSON.stringify(expandedChecklist, null, 2);
-    fs.writeFileSync(path.join(__dirname, "checklists", fileName), fileContent);
+    fs.writeFileSync(path.join(checklistsDir, fileName), fileContent);
+
     res.status(200).json({
       success: true,
       message: "Checklist file created successfully",
@@ -408,9 +416,11 @@ app.post("/api/makeChecklist", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to create checklist file",
+      error: error.message, // Add error message for debugging
     });
   }
 });
+
 
 app.post("/api/generatePDF", (req, res) => {
   const { token } = req.body;

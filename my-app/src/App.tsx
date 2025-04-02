@@ -40,6 +40,7 @@ import "./App.css";
 import Header from "./Components/Header/Header";
 import Slider from "./Components/Slider/Slider";
 import Checklist from "./Components/Checklist/Checklist";
+import host from "./constants";
 
 function App() {
   const [selectedTab, setSelectedTab] = useState("Чеклист");
@@ -64,7 +65,7 @@ function App() {
 
   const fetchChecklist = async (token: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/checklist?token=${token}`);
+      const response = await fetch(`${host}/api/checklist?token=${token}`);
       if (!response.ok) throw new Error('Failed to fetch checklist');
       const data = await response.json();
       setItems(data.checklist);
@@ -77,7 +78,7 @@ function App() {
 
   const saveChecklist = async (token: string, checklist: ChecklistState) => {
     try {
-      const response = await fetch('http://localhost:3001/api/updateChecklist', {
+      const response = await fetch(`${host}/api/updateChecklist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, checklist }),
@@ -172,7 +173,7 @@ function App() {
   };
   return (
     <>
-      <Header saveChecklist={()=>saveChecklist(token,items)}></Header>
+      <Header saveChecklist={()=>saveChecklist(token,items)} token={token}></Header>
       <Slider activeTab={selectedTab} onTabChange={handleTabChange} />
       <div className="contentWrapper">
       {/* Отображение контента в зависимости от выбранной вкладки */}
