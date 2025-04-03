@@ -183,6 +183,8 @@ async function generatePdf(token) {
     const fileContentChecklist = fs.readFileSync(filePathChecklist, "utf-8");
     const fileContentTemplate = fs.readFileSync(filePathTemplate, "utf-8");
     const checklist = JSON.parse(fileContentChecklist);
+    const window = new JSDOM('').window;
+    const purify = DOMPurify(window);
 
     const browser = await puppeteer.launch({ headless: true, args: [
       '--no-sandbox',
@@ -216,10 +218,10 @@ async function generatePdf(token) {
         htmlContent += `
             <div class="item">
               <input type="checkbox" class="checkbox" />
-              <div class="name">${item.name}</div>
+              <div class="name">${purify.sanitize(item.name)}</div>
               ${
                 item.count !== undefined
-                  ? `<span class="count">X ${item.count}</span>`
+                  ? `<span class="count">X ${purify.sanitize(item.count)}</span>`
                   : ""
               }
             </div>
@@ -232,11 +234,8 @@ async function generatePdf(token) {
       "<!--INSERT-->",
       htmlContent
     );
-    const window = new JSDOM('').window;
-    const purify = DOMPurify(window);
-    const filePDFContentCleaned = purify.sanitize(filePDFContent);
-    await page.setContent(filePDFContentCleaned);
-    fs.writeFile("output.html", filePDFContentCleaned, (err) => {
+    await page.setContent(filePDFContent);
+    fs.writeFile("output.html", filePDFContent, (err) => {
       if (err) {
         console.error("Error saving HTML:", err);
       } else {
