@@ -7,6 +7,8 @@ const fs = require("fs");
 const path = require("path");
 const axios = require("axios"); // Для HTTP-запросов
 const cheerio = require("cheerio"); // Для парсинга HTML
+const DOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
 
 const app = express();
 const port = 3001;
@@ -230,9 +232,11 @@ async function generatePdf(token) {
       "<!--INSERT-->",
       htmlContent
     );
-
-    await page.setContent(filePDFContent);
-    fs.writeFile("output.html", filePDFContent, (err) => {
+    const window = new JSDOM('').window;
+    const purify = DOMPurify(window);
+    const filePDFContentCleaned = purify.sanitize(filePDFContent);
+    await page.setContent(filePDFContentCleaned);
+    fs.writeFile("output.html", filePDFContentCleaned, (err) => {
       if (err) {
         console.error("Error saving HTML:", err);
       } else {
