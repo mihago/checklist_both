@@ -182,7 +182,9 @@ async function generatePdf(token) {
     const fileContentTemplate = fs.readFileSync(filePathTemplate, "utf-8");
     const checklist = JSON.parse(fileContentChecklist);
 
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: true, args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',]});
     const page = await browser.newPage();
     await page.setViewport({
       width: 1280, // Ширина в пикселях
