@@ -15,6 +15,7 @@ const port = 3001;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.text({ type: 'text/plain' }));
 // Пример данных для чеклиста
 const expandedChecklist = {
   Гигиена: [
@@ -381,47 +382,78 @@ app.post("/api/generateToken", (req, res) => {
 });
 
 app.post("/api/makeChecklist", async (req, res) => {
-  const { token, place } = req.body;
-
-  if (!token) {
-    return res.status(400).json({
-      success: false,
-      message: "Token is required",
-    });
-  }
+  let token, place;
 
   try {
+    // Определяем формат запроса
+    if (req.is('text/plain')) {
+      // Обработка plain text запроса
+      const textData = req.body.trim();
+      [token, place] = textData.split('|').map(item => item.trim());
+      
+      if (!token) {
+        return res.status(400).json({
+          success: false,
+          message: "Token is required in text format. Format: '<token>|<place>'"
+        });
+      }
+      
+      // Устанавливаем место по умолчанию, если не указано
+      place = place || 'Москва';
+    } else if (req.is('application/json')) {
+      // Обработка JSON запроса
+      ({ token, place } = req.body);
+      
+      if (!token) {
+        return res.status(400).json({
+          success: false,
+          message: "Token is required in JSON body"
+        });
+      }
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Unsupported Content-Type. Please use text/plain or application/json"
+      });
+    }
+
+    // Получаем координаты места
     const { data } = await axios.get(
       `https://geocode-maps.yandex.ru/v1/?apikey=${process.env.API_KEY}&geocode=${place}&format=json`
     );
     const firstResult = data.response.GeoObjectCollection.featureMember[0];
     const [lon, lat] = firstResult.GeoObject.Point.pos.split(" ");
 
+    // Получаем данные о погоде
     const { data: site } = await axios.get(
       `https://yandex.ru/pogoda/month/june?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
     );
     const weather = parseClimateData(site);
     
-    // Check if the checklists folder exists, and create it if it doesn't
+    // Создаем папку для чеклистов, если её нет
     const checklistsDir = path.join(__dirname, "checklists");
     if (!fs.existsSync(checklistsDir)) {
       fs.mkdirSync(checklistsDir);
     }
 
+    // Создаем файл чеклиста
     const fileName = `${token}_checklist.json`;
+    const filePath = path.join(checklistsDir, fileName);
     const fileContent = JSON.stringify(expandedChecklist, null, 2);
-    fs.writeFileSync(path.join(checklistsDir, fileName), fileContent);
+    
+    fs.writeFileSync(filePath, fileContent);
 
     res.status(200).json({
       success: true,
       message: "Checklist file created successfully",
+      token: token
     });
   } catch (error) {
     console.error("Error creating checklist file:", error);
     res.status(500).json({
       success: false,
       message: "Failed to create checklist file",
-      error: error.message, // Add error message for debugging
+      error: error.message
     });
   }
 });
