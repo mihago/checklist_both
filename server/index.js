@@ -389,7 +389,8 @@ app.post("/api/makeChecklist", async (req, res) => {
     if (req.is('text/plain')) {
       // Обработка plain text запроса
       const textData = req.body.trim();
-      [token, place] = textData.split('|').map(item => item.trim());
+      
+      ({token, place} = JSON.parse(textData));
       
       if (!token) {
         return res.status(400).json({
@@ -446,7 +447,6 @@ app.post("/api/makeChecklist", async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Checklist file created successfully",
-      token: token
     });
   } catch (error) {
     console.error("Error creating checklist file:", error);
