@@ -447,6 +447,7 @@ app.post("/api/makeChecklist", async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Checklist file created successfully",
+      weather:weather,
     });
   } catch (error) {
     console.error("Error creating checklist file:", error);
