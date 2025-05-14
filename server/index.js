@@ -309,6 +309,7 @@ app.get("/api/checklist", (req, res) => {
 app.post("/api/generateToken", (req, res) => {
   try {
     const token = uuidv4();
+    console.log("generatingToken");
     res.status(200).json({
       success: true,
       message: "Token generated successfully",
