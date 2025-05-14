@@ -264,65 +264,7 @@ async function generatePdf(token) {
 }
 function parseClimateData(htmlString) {
   const $ = cheerio.load(htmlString);
-  const result = {};
-
-  // 1. Дни с разными погодными условиями
-  result.weatherDays = [];
-  $(".climate-month-additional-diagram__legend-item").each((i, el) => {
-    const counter = parseInt(
-      $(el)
-        .find(".climate-month-additional-diagram__legend-counter")
-        .text()
-        .trim()
-    );
-    const text = $(el)
-      .find(".climate-month-additional-diagram__legend-text")
-      .text()
-      .trim();
-    result.weatherDays.push({ counter, text });
-  });
-
-  // 2. Влажность воздуха
-  const humidityText = $(
-    ".climate-month-additional-param:nth-child(1) .climate-month-additional-param__value"
-  )
-    .text()
-    .trim();
-  result.humidity = parseInt(humidityText);
-
-  // 3. Ветер
-  const windValueText = $(
-    ".climate-month-additional-param:nth-child(2) .climate-month-additional-param__value"
-  )
-    .text()
-    .trim();
-  const windDir = $(".climate-month-additional-param:nth-child(2) .icon-abbr")
-    .text()
-    .trim();
-  result.wind = {
-    value: parseFloat(windValueText),
-    direction: windDir,
-  };
-
-  // 4. Осадки
-  const rainValueText = $(
-    ".climate-month-additional-param:nth-child(3) .climate-month-additional-param__value"
-  )
-    .text()
-    .trim();
-  const rainDescription = $(
-    ".climate-month-additional-param:nth-child(3) .climate-month-additional-param__description-name"
-  )
-    .text()
-    .trim();
-  result.rain = {
-    value: parseInt(rainValueText),
-    description: rainDescription,
-  };
-
-  //5 Месяц
-  result.month = $(".climate-month-additional__title").text().trim();
-
+  const result = $("[class^=AppMonthSeoText]").text();
   return result;
 }
 
