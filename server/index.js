@@ -401,6 +401,7 @@ app.post("/api/makeChecklist", async (req, res) => {
       
       // Устанавливаем место по умолчанию, если не указано
       place = place || 'Москва';
+      console.log(place);
     } else if (req.is('application/json')) {
       // Обработка JSON запроса
       ({ token, place } = req.body);
