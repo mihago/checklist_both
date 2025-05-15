@@ -103,7 +103,7 @@ app.post("/api/makeChecklist", async (req, res) => {
     const fileContent = toString(req);
 
     fs.writeFileSync(filePath, fileContent);
-  let token, place;
+  let token, place,hobbies,start_date,end_date;
 
   try {
     // Определяем формат запроса
@@ -127,9 +127,9 @@ app.post("/api/makeChecklist", async (req, res) => {
       place = place || "Москва";
       console.log(place);
     } else if (req.is("application/json")) {
-      console.log("here1");
+      console.log(req.body);
       // Обработка JSON запроса
-      ({ token, place } = req.body);
+      ({ token,country,hobbies,start_date,end_date,has_eye_problems,has_sleep_problems,email,gender,special_drugs } = req.body);
 
       if (!token) {
         return res.status(400).json({
