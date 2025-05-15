@@ -294,7 +294,12 @@ app.get("/checklist", (req, res) => {
   app.use(express.static(path.join(__dirname, "dist")));
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
-
+app.get("/healthcheck", (req, res) => {
+    console.log("healthcheck");
+    res.status(200).json({
+      success: true,
+    });
+});
 // Запуск сервера
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
