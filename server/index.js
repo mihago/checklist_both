@@ -136,6 +136,7 @@ app.post("/api/makeChecklist", async (req, res) => {
         });
       }
     } else {
+      console.log("here2");
       return res.status(400).json({
         success: false,
         message:
