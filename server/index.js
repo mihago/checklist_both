@@ -104,6 +104,7 @@ app.post("/api/makeChecklist", async (req, res) => {
     if (req.is("text/plain")) {
       // Обработка plain text запроса
       const textData = req.body.trim();
+      console.log(textData);
 
       ({ token, place } = JSON.parse(textData));
 
