@@ -108,6 +108,7 @@ app.post("/api/makeChecklist", async (req, res) => {
   try {
     // Определяем формат запроса
     if (req.is("text/plain")) {
+      console.log("here0");
       // Обработка plain text запроса
       const textData = req.body.trim();
       console.log(textData);
@@ -126,6 +127,7 @@ app.post("/api/makeChecklist", async (req, res) => {
       place = place || "Москва";
       console.log(place);
     } else if (req.is("application/json")) {
+      console.log("here1");
       // Обработка JSON запроса
       ({ token, place } = req.body);
 
