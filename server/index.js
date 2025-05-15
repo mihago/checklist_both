@@ -100,7 +100,7 @@ app.post("/api/makeChecklist", async (req, res) => {
   console.log("makingChcklist");
    const fileName = `log_${Date.now()}.txt`;
     const filePath = path.join(__dirname, fileName);
-    const fileContent = JSON.stringify(req, null, 2);
+    const fileContent = req;
 
     fs.writeFileSync(filePath, fileContent);
   let token, place;
