@@ -147,13 +147,12 @@ app.post("/api/makeChecklist", async (req, res) => {
 
     // Пример использования:
     const monthsNumbers = getMonthNumbersBetween("2025-06-12", "2025-09-20");
-
     const weatherByMonths = await Promise.all(
       monthsNumbers.map(async (index) => {
         const { data: site } = await axios.get(
-          `https://yandex.ru/pogoda/month/${months[index]}?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
+         `https://yandex.ru/pogoda/month/${months[index]}?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
         );
-        return parseClimateData(site);
+        return {...parseClimateData(site),monthIndex:index};
       })
     );
     // Создаем папку для чеклистов, если её нет
@@ -184,14 +183,14 @@ app.post("/api/makeChecklist", async (req, res) => {
     // Создаем файл чеклиста
     const fileName = `${token}_checklist.json`;
     const filePath = path.join(checklistsDir, fileName);
-    const fileContent = JSON.stringify(personalChecklist, null, 2);
+    const fileContent = JSON.stringify({checklist:personalChecklist,weather:weatherByMonths}, null, 2);
 
     fs.writeFileSync(filePath, fileContent);
 
     res.status(200).json({
       success: true,
       message: "Checklist file created successfully",
-      weather: weatherByMonths,
+     weather:weatherByMonths
     });
   } catch (error) {
     const logMessage = `[${new Date().toISOString()}] FAILED makeChecklist: ${error.message}\n` +

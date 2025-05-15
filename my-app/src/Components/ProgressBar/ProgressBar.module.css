@@ -1,0 +1,49 @@
+.progressBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progressMobile {
+  font-size: 24px;
+  font-weight: 500;
+  display: block;
+}
+
+.progressDesktop {
+  display: none;
+  gap: 8px;
+}
+
+.dot {
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.inactive {
+  width: 16px;
+  height: 16px;
+  background-color: #aaa;
+}
+
+.completed {
+  width: 16px;
+  height: 16px;
+  background-color: #b9f273;
+}
+
+.active {
+  width: 20px;
+  height: 20px;
+  background-color: #b9f273;
+}
+
+@media (min-width: 640px) {
+  .progressMobile {
+    display: none;
+  }
+
+  .progressDesktop {
+    display: flex;
+  }
+}

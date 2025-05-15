@@ -43,8 +43,8 @@ const Checklist = ({
   onToggleCompleted,
   onAddItem
 }: ChecklistProps) => {
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div>Загрузка...</div>;
+  if (error) return <div>Ошибка: {error}</div>;
 
   return (
     <div className={styles.checklist}>

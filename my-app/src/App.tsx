@@ -41,6 +41,7 @@ import Header from "./Components/Header/Header";
 import Slider from "./Components/Slider/Slider";
 import Checklist from "./Components/Checklist/Checklist";
 import host from "./constants";
+import WeatherDisplay from "./Components/WeatherDisplay/WeatherDisplay";
 
 function App() {
   const [selectedTab, setSelectedTab] = useState("Чеклист");
@@ -59,6 +60,7 @@ function App() {
     [category: string]: ChecklistItemState[];
   }
   const [items, setItems] = useState<{ [category: string]: ChecklistItemState[] }>({});
+  const [weather,setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [token, setToken] = useState("");
@@ -68,7 +70,8 @@ function App() {
       const response = await fetch(`${host}/api/checklist?token=${token}`);
       if (!response.ok) throw new Error('Failed to fetch checklist');
       const data = await response.json();
-      setItems(data.checklist);
+      setItems(data.checklist.checklist);
+      setWeather(data.checklist.weather);
     } catch (error) {
       setError(error instanceof Error ? error.message : String(error));
     } finally {
@@ -190,7 +193,7 @@ function App() {
       onToggleCompleted={handleToggleCompleted}
       onAddItem={handleAddItem}
     />}
-      {selectedTab === "Погода" && <div>Контент для Погоды</div>}
+      {selectedTab === "Погода" && weather?<WeatherDisplay weatherData={weather}></WeatherDisplay>:<div>Загрузка...</div>}
       {selectedTab === "Советы" && <div>Контент для Советов</div>}
       </div>
     </>

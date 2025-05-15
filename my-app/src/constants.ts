@@ -1,2 +1,2 @@
-const host = "https://checklist-constructor.ru";
+const host = "http://localhost:3001";
 export default host;
