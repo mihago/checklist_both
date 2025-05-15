@@ -1,272 +1,39 @@
 const express = require("express");
-const puppeteer = require("puppeteer");
 const cors = require("cors");
 require("dotenv").config();
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios"); // Для HTTP-запросов
-const cheerio = require("cheerio"); // Для парсинга HTML
-const DOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
-
+const expandedChecklist = require("./checklist.json");
+const {
+  makePersonalChecklist,
+  getMonthNumbersBetween,
+  generatePdf,
+  parseClimateData,
+  buildPersonalChecklist,
+} = require("./utils");
 const app = express();
 const port = 3001;
 
+const months = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
+
 app.use(cors());
 app.use(express.json());
-app.use(express.text({ type: 'text/plain' }));
-// Пример данных для чеклиста
-const expandedChecklist = {
-  Гигиена: [
-    { id: 15, name: "Бутылка для воды", completed: false, isDeleted: false },
-    { id: 16, name: "Влажные салфетки", completed: false, isDeleted: false },
-    { id: 17, name: "Бумажные платочки", completed: false, isDeleted: false },
-    { id: 18, name: "Антисептик", completed: false, isDeleted: false },
-    { id: 19, name: "Лейкопластырь", completed: false, isDeleted: false },
-    { id: 20, name: "Бинт", completed: false, isDeleted: false },
-    {
-      id: 21,
-      name: "Болеутоляющие средства",
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 22, name: "Капли в нос", completed: false, isDeleted: false },
-    {
-      id: 23,
-      name: "Таблетки для рассасывания от боли в горле",
-      completed: false,
-      isDeleted: false,
-    },
-    {
-      id: 24,
-      name: "Порошки от гриппа и простуды",
-      completed: false,
-      isDeleted: false,
-    },
-    {
-      id: 25,
-      name: "Средство от аллергии",
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 26, name: "Перекись водорода", completed: false, isDeleted: false },
-    { id: 27, name: "Смекта", completed: false, isDeleted: false },
-    {
-      id: 28,
-      name: "Лекарства от специфических заболеваний",
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 29, name: "Дезодорант", completed: false, isDeleted: false },
-    {
-      id: 30,
-      name: "Гель для душа (мини-вариант)",
-      completed: false,
-      isDeleted: false,
-    },
-    {
-      id: 31,
-      name: "Шампунь (мини-вариант)",
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 32, name: "Полотенце", completed: false, isDeleted: false },
-    { id: 33, name: "Зубная паста", completed: false, isDeleted: false },
-  ],
-  Одежда: [
-    {
-      id: 43,
-      name: "Нижнее бельё",
-      count: 7,
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 44, name: "Носки", count: 7, completed: false, isDeleted: false },
-    {
-      id: 45,
-      name: "Рубашка / футболка",
-      count: 5,
-      completed: false,
-      isDeleted: false,
-    },
-    {
-      id: 46,
-      name: "Брюки / джинсы",
-      count: 2,
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 47, name: "Пижама", count: 2, completed: false, isDeleted: false },
-    { id: 48, name: "Сланцы", completed: false, isDeleted: false },
-    { id: 49, name: "Ремень", completed: false, isDeleted: false },
-    { id: 50, name: "Кроссовки", completed: false, isDeleted: false },
-    {
-      id: 51,
-      name: "Комплект спортивной одежды",
-      completed: false,
-      isDeleted: false,
-    },
-    {
-      id: 52,
-      name: "Деловой комплект одежды",
-      completed: false,
-      isDeleted: false,
-    },
-    {
-      id: 53,
-      name: "Куртка на переходную погоду",
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 54, name: "Ветровка", completed: false, isDeleted: false },
-    { id: 55, name: "Обувь на дождь", completed: false, isDeleted: false },
-  ],
-  Документы: [
-    { id: 1, name: "Загранпаспорт", completed: false, isDeleted: false },
-    { id: 2, name: "Паспорт РФ", completed: false, isDeleted: false },
-    { id: 3, name: "Страховка", completed: false, isDeleted: false },
-    {
-      id: 4,
-      name: "Виза и другие документы",
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 5, name: "Билеты на самолёт", completed: false, isDeleted: false },
-    {
-      id: 6,
-      name: "Запись необходимых по приезде адресов",
-      completed: false,
-      isDeleted: false,
-    },
-    {
-      id: 7,
-      name: "Наличные / банковская карта",
-      completed: false,
-      isDeleted: false,
-    },
-  ],
-  Техника: [
-    { id: 10, name: "Ноутбук или планшет", completed: false, isDeleted: false },
-    { id: 11, name: "Наушники", completed: false, isDeleted: false },
-    {
-      id: 12,
-      name: "Зарядки для всех устройств",
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 13, name: "Повербанк", completed: false, isDeleted: false },
-    { id: 14, name: "Блокнот и ручка", completed: false, isDeleted: false },
-  ],
-  Прочее: [
-    { id: 56, name: "Целлофановые пакеты", completed: false, isDeleted: false },
-    {
-      id: 57,
-      name: "Настольная/карточная игра (Uno, Мафия)",
-      completed: false,
-      isDeleted: false,
-    },
-    { id: 58, name: "Постельное бельё", completed: false, isDeleted: false },
-  ],
-  Аксессуары: [
-    { id: 8, name: "Рюкзак / сумка", completed: false, isDeleted: false },
-    { id: 9, name: "Зонт / дождевик", completed: false, isDeleted: false },
-  ],
-  Удалённые: [],
-};
-
-
-async function generatePdf(token) {
-  try {
-    const fileName = `${token}_checklist.json`;
-    const filePathChecklist = path.join(__dirname, "checklists", fileName);
-    const filePathTemplate = path.join(__dirname, "template.html");
-    const fileContentChecklist = fs.readFileSync(filePathChecklist, "utf-8");
-    const fileContentTemplate = fs.readFileSync(filePathTemplate, "utf-8");
-    const checklist = JSON.parse(fileContentChecklist);
-    const window = new JSDOM('').window;
-    const purify = DOMPurify(window);
-
-    const browser = await puppeteer.launch({ headless: true, args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',]});
-    const page = await browser.newPage();
-    await page.setViewport({
-      width: 1280, // Ширина в пикселях
-      height: 720, // Высота в пикселях
-    });
-    const CategoryColors = [
-      "rgb(184,253,97,0.15)",
-      "rgba(253,184,97,0.15)",
-      "rgba(97,184,253,0.15)",
-      "rgba(253,97,184,0.15)",
-      "rgba(97,253,184,0.15)",
-      "rgba(184,97,253,0.15  )",
-    ];
-    let htmlContent = "";
-    let i = 0;
-    for (const category in checklist) {
-      if (category == "Удалённые") continue;
-      htmlContent += `
-        <div class="categoryWrapper" style="background: ${
-          CategoryColors[i % 6]
-        }">
-          <div class="title">${category}</div>
-          <div class="itemsContainer">
-      `;
-
-      for (const item of checklist[category]) {
-        htmlContent += `
-            <div class="item">
-              <input type="checkbox" class="checkbox" />
-              <div class="name">${purify.sanitize(item.name)}</div>
-              ${
-                item.count !== undefined
-                  ? `<span class="count">X ${purify.sanitize(item.count)}</span>`
-                  : ""
-              }
-            </div>
-        `;
-      }
-      htmlContent += "</div></div>";
-      i++;
-    }
-    const filePDFContent = fileContentTemplate.replace(
-      "<!--INSERT-->",
-      htmlContent
-    );
-    await page.setContent(filePDFContent);
-    fs.writeFile("output.html", filePDFContent, (err) => {
-      if (err) {
-        console.error("Error saving HTML:", err);
-      } else {
-        console.log("HTML saved successfully");
-      }
-    });
-
-    const pdfBuffer = await page.pdf({
-      format: "A4",
-      margin: {
-        top: "10px",
-        right: "10px",
-        bottom: "10px",
-        left: "10px",
-      },
-    });
-
-    await browser.close();
-
-    return pdfBuffer;
-  } catch (error) {
-    console.error("Error generating PDF:", error);
-    throw error;
-  }
-}
-function parseClimateData(htmlString) {
-  const $ = cheerio.load(htmlString);
-  const result = $("[class^=AppMonthSeoText]").text();
-  return result;
-}
+app.use(express.text({ type: "text/plain" }));
 
 app.get("/api/checklist", (req, res) => {
   const { token } = req.query;
@@ -316,6 +83,11 @@ app.post("/api/generateToken", (req, res) => {
       token: token,
     });
   } catch (error) {
+    const logMessage = `[${new Date().toISOString()}] FAILED makeChecklist: ${error.message}\n` +
+                      `Request Body: ${JSON.stringify(req.body)}\n` +
+                      `Stack: ${error.stack}\n\n`;
+
+    console.log(logMessage);
     console.error("Error generating token:", error);
     res.status(500).json({
       success: false,
@@ -329,36 +101,38 @@ app.post("/api/makeChecklist", async (req, res) => {
 
   try {
     // Определяем формат запроса
-    if (req.is('text/plain')) {
+    if (req.is("text/plain")) {
       // Обработка plain text запроса
       const textData = req.body.trim();
-      
-      ({token, place} = JSON.parse(textData));
-      
+
+      ({ token, place } = JSON.parse(textData));
+
       if (!token) {
         return res.status(400).json({
           success: false,
-          message: "Token is required in text format. Format: '<token>|<place>'"
+          message:
+            "Token is required in text format. Format: '<token>|<place>'",
         });
       }
-      
+
       // Устанавливаем место по умолчанию, если не указано
-      place = place || 'Москва';
+      place = place || "Москва";
       console.log(place);
-    } else if (req.is('application/json')) {
+    } else if (req.is("application/json")) {
       // Обработка JSON запроса
       ({ token, place } = req.body);
-      
+
       if (!token) {
         return res.status(400).json({
           success: false,
-          message: "Token is required in JSON body"
+          message: "Token is required in JSON body",
         });
       }
     } else {
       return res.status(400).json({
         success: false,
-        message: "Unsupported Content-Type. Please use text/plain or application/json"
+        message:
+          "Unsupported Content-Type. Please use text/plain or application/json",
       });
     }
 
@@ -370,39 +144,69 @@ app.post("/api/makeChecklist", async (req, res) => {
     const [lon, lat] = firstResult.GeoObject.Point.pos.split(" ");
 
     // Получаем данные о погоде
-    const { data: site } = await axios.get(
-      `https://yandex.ru/pogoda/month/june?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
+
+    // Пример использования:
+    const monthsNumbers = getMonthNumbersBetween("2025-06-12", "2025-09-20");
+
+    const weatherByMonths = await Promise.all(
+      monthsNumbers.map(async (index) => {
+        const { data: site } = await axios.get(
+          `https://yandex.ru/pogoda/month/${months[index]}?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
+        );
+        return parseClimateData(site);
+      })
     );
-    const weather = parseClimateData(site);
-    
     // Создаем папку для чеклистов, если её нет
     const checklistsDir = path.join(__dirname, "checklists");
     if (!fs.existsSync(checklistsDir)) {
       fs.mkdirSync(checklistsDir);
     }
+    const mockData = {
+      gender: "female",
+      country: "Москва",
+      startDate: "2025-06-12",
+      endDate: "2025-09-20",
+      hobby: "photography",
+      vision: true,
+      specialMeds: ["Ингалятор", "Противосудорожные препараты"],
+    };
 
+    const personalChecklist = buildPersonalChecklist(
+      mockData,
+      weatherByMonths.reduce((acc, curr, i) => {
+        return {
+          minTemp: Math.min(acc.minTemp, curr.minTemp),
+          maxTemp: Math.max(acc.maxTemp, curr.maxTemp),
+        };
+      }),
+      expandedChecklist
+    );
     // Создаем файл чеклиста
     const fileName = `${token}_checklist.json`;
     const filePath = path.join(checklistsDir, fileName);
-    const fileContent = JSON.stringify(expandedChecklist, null, 2);
-    
+    const fileContent = JSON.stringify(personalChecklist, null, 2);
+
     fs.writeFileSync(filePath, fileContent);
 
     res.status(200).json({
       success: true,
       message: "Checklist file created successfully",
-      weather:weather,
+      weather: weatherByMonths,
     });
   } catch (error) {
+    const logMessage = `[${new Date().toISOString()}] FAILED makeChecklist: ${error.message}\n` +
+                      `Request Body: ${JSON.stringify(req.body)}\n` +
+                      `Stack: ${error.stack}\n\n`;
+
+    console.log(logMessage);
     console.error("Error creating checklist file:", error);
     res.status(500).json({
       success: false,
       message: "Failed to create checklist file",
-      error: error.message
+      error: error.message,
     });
   }
 });
-
 
 app.post("/api/generatePDF", (req, res) => {
   const { token } = req.body;
@@ -468,7 +272,7 @@ app.post("/api/updateChecklist", (req, res) => {
     });
   }
 });
-app.get("/checklist",(req,res)=>{
+app.get("/checklist", (req, res) => {
   const { token } = req.query;
   if (!token) {
     return res.status(400).json({
@@ -487,8 +291,8 @@ app.get("/checklist",(req,res)=>{
       message: "Checklist file not found",
     });
   }
-  app.use(express.static(path.join(__dirname, 'dist')));
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  app.use(express.static(path.join(__dirname, "dist")));
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 // Запуск сервера

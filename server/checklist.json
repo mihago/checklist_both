@@ -1,0 +1,245 @@
+{
+  "Гигиена": [
+    {
+      "id": 15,
+      "name": "Бутылка для воды",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 16,
+      "name": "Влажные салфетки",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 17,
+      "name": "Бумажные платочки",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 18,
+      "name": "Антисептик",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 29,
+      "name": "Дезодорант",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 30,
+      "name": "Гель для душа (мини-вариант)",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 31,
+      "name": "Шампунь (мини-вариант)",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 32,
+      "name": "Полотенце",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 33,
+      "name": "Зубная паста",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 101,
+      "name": "Маникюрный набор",
+      "completed": false,
+      "isDeleted": false
+    }
+  ],
+  "Лекарства": [
+    {
+      "id": 19,
+      "name": "Лейкопластырь",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 20,
+      "name": "Бинт",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 21,
+      "name": "Болеутоляющие средства",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 22,
+      "name": "Капли в нос",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 23,
+      "name": "Таблетки для рассасывания от боли в горле",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 24,
+      "name": "Порошки от гриппа и простуды",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 25,
+      "name": "Средство от аллергии",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 26,
+      "name": "Перекись водорода",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 27,
+      "name": "Смекта",
+      "completed": false,
+      "isDeleted": false
+    }
+  ],
+  "Одежда": [
+    {
+      "id": 52,
+      "name": "Деловой комплект одежды",
+      "completed": false,
+      "isDeleted": false
+    }
+  ],
+  "Документы": [
+    {
+      "id": 1,
+      "name": "Загранпаспорт",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 2,
+      "name": "Паспорт РФ",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 3,
+      "name": "Страховка",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 4,
+      "name": "Виза и другие документы",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 5,
+      "name": "Билеты на самолёт",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 6,
+      "name": "Запись необходимых по приезде адресов",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 7,
+      "name": "Наличные / банковская карта",
+      "completed": false,
+      "isDeleted": false
+    }
+  ],
+  "Техника": [
+    {
+      "id": 10,
+      "name": "Ноутбук или планшет",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 11,
+      "name": "Наушники",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 12,
+      "name": "Зарядки для всех устройств",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 13,
+      "name": "Повербанк",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 14,
+      "name": "Блокнот и ручка",
+      "completed": false,
+      "isDeleted": false
+    }
+  ],
+  "Прочее": [
+    {
+      "id": 56,
+      "name": "Целлофановые пакеты",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 57,
+      "name": "Настольная/карточная игра (Uno, Мафия)",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 58,
+      "name": "Постельное бельё",
+      "completed": false,
+      "isDeleted": false
+    }
+  ],
+  "Аксессуары": [
+    {
+      "id": 8,
+      "name": "Рюкзак / сумка",
+      "completed": false,
+      "isDeleted": false
+    },
+    {
+      "id": 9,
+      "name": "Зонт / дождевик",
+      "completed": false,
+      "isDeleted": false
+    },
+      {
+      "id": 53,
+      "name": "Ремень",
+      "completed": false,
+      "isDeleted": false
+    }
+  ],
+  "Удалённые": []
+}
