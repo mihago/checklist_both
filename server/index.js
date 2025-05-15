@@ -97,6 +97,7 @@ app.post("/api/generateToken", (req, res) => {
 });
 
 app.post("/api/makeChecklist", async (req, res) => {
+  console.log("makingChcklist");
   let token, place;
 
   try {
