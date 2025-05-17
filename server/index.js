@@ -31,7 +31,7 @@ const months = [
   "december",
 ];
 
-app.use(cors({origin:"https://preview.appmaster.io"}));
+app.use(cors({ origin: "https://preview.appmaster.io" }));
 app.use(express.json());
 app.use(express.text({ type: "text/plain" }));
 
@@ -83,9 +83,10 @@ app.post("/api/generateToken", (req, res) => {
       token: token,
     });
   } catch (error) {
-    const logMessage = `[${new Date().toISOString()}] FAILED makeChecklist: ${error.message}\n` +
-                      `Request Body: ${JSON.stringify(req.body)}\n` +
-                      `Stack: ${error.stack}\n\n`;
+    const logMessage =
+      `[${new Date().toISOString()}] FAILED makeChecklist: ${error.message}\n` +
+      `Request Body: ${JSON.stringify(req.body)}\n` +
+      `Stack: ${error.stack}\n\n`;
 
     console.log(logMessage);
     console.error("Error generating token:", error);
@@ -98,20 +99,27 @@ app.post("/api/generateToken", (req, res) => {
 
 app.post("/api/makeChecklist", async (req, res) => {
   console.log("makingChcklist");
-   const fileName = `log_${Date.now()}.txt`;
-    const filePath = path.join(__dirname, fileName);
-    const fileContent = toString(req);
+  const fileName = `log_${Date.now()}.txt`;
+  const filePath = path.join(__dirname, fileName);
+  const fileContent = toString(req);
 
-    fs.writeFileSync(filePath, fileContent);
-  let token, place,hobbies,start_date,end_date;
+  fs.writeFileSync(filePath, fileContent);
+  let token,
+    place,
+    hobbies,
+    start_date,
+    end_date,
+    has_eye_problems,
+    has_sleep_problems,
+    email,
+    gender,
+    special_drugs;
 
   try {
     // Определяем формат запроса
     if (req.is("text/plain")) {
-      console.log("here0");
       // Обработка plain text запроса
       const textData = req.body.trim();
-      console.log(textData);
 
       ({ token, place } = JSON.parse(textData));
 
@@ -125,11 +133,22 @@ app.post("/api/makeChecklist", async (req, res) => {
 
       // Устанавливаем место по умолчанию, если не указано
       place = place || "Москва";
-      console.log(place);
     } else if (req.is("application/json")) {
       console.log(req.body);
       // Обработка JSON запроса
-      ({ token,country,hobbies,start_date,end_date,has_eye_problems,has_sleep_problems,email,gender,special_drugs } = req.body);
+      ({
+        token,
+        country,
+        hobbies,
+        start_date,
+        end_date,
+        has_eye_problems,
+        has_sleep_problems,
+        email,
+        gender,
+        special_drugs,
+      } = req.body);
+      place = country;
 
       if (!token) {
         return res.status(400).json({
@@ -156,13 +175,13 @@ app.post("/api/makeChecklist", async (req, res) => {
     // Получаем данные о погоде
 
     // Пример использования:
-    const monthsNumbers = getMonthNumbersBetween("2025-06-12", "2025-09-20");
+    const monthsNumbers = getMonthNumbersBetween(start_date, end_date);
     const weatherByMonths = await Promise.all(
       monthsNumbers.map(async (index) => {
         const { data: site } = await axios.get(
-         `https://yandex.ru/pogoda/month/${months[index]}?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
+          `https://yandex.ru/pogoda/month/${months[index]}?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
         );
-        return {...parseClimateData(site),monthIndex:index};
+        return { ...parseClimateData(site), monthIndex: index };
       })
     );
     // Создаем папку для чеклистов, если её нет
@@ -170,18 +189,18 @@ app.post("/api/makeChecklist", async (req, res) => {
     if (!fs.existsSync(checklistsDir)) {
       fs.mkdirSync(checklistsDir);
     }
-    const mockData = {
-      gender: "female",
-      country: "Москва",
-      startDate: "2025-06-12",
-      endDate: "2025-09-20",
-      hobby: "photography",
-      vision: true,
-      specialMeds: ["Ингалятор", "Противосудорожные препараты"],
+    const formData = {
+      gender: gender,
+      country: place,
+      startDate: start_date,
+      endDate: end_date,
+      hobbies: hobbies,
+      has_eye_problems,
+      special_drugs,
     };
 
     const personalChecklist = buildPersonalChecklist(
-      mockData,
+      formData,
       weatherByMonths.reduce((acc, curr, i) => {
         return {
           minTemp: Math.min(acc.minTemp, curr.minTemp),
@@ -193,19 +212,24 @@ app.post("/api/makeChecklist", async (req, res) => {
     // Создаем файл чеклиста
     const fileName = `${token}_checklist.json`;
     const filePath = path.join(checklistsDir, fileName);
-    const fileContent = JSON.stringify({checklist:personalChecklist,weather:weatherByMonths}, null, 2);
+    const fileContent = JSON.stringify(
+      { checklist: personalChecklist, weather: weatherByMonths },
+      null,
+      2
+    );
 
     fs.writeFileSync(filePath, fileContent);
 
     res.status(200).json({
       success: true,
       message: "Checklist file created successfully",
-     weather:weatherByMonths
+      weather: weatherByMonths,
     });
   } catch (error) {
-    const logMessage = `[${new Date().toISOString()}] FAILED makeChecklist: ${error.message}\n` +
-                      `Request Body: ${JSON.stringify(req.body)}\n` +
-                      `Stack: ${error.stack}\n\n`;
+    const logMessage =
+      `[${new Date().toISOString()}] FAILED makeChecklist: ${error.message}\n` +
+      `Request Body: ${JSON.stringify(req.body)}\n` +
+      `Stack: ${error.stack}\n\n`;
 
     console.log(logMessage);
     console.error("Error creating checklist file:", error);
@@ -304,10 +328,10 @@ app.get("/checklist", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 app.get("/healthcheck", (req, res) => {
-    console.log("healthcheck");
-    res.status(200).json({
-      success: true,
-    });
+  console.log("healthcheck");
+  res.status(200).json({
+    success: true,
+  });
 });
 // Запуск сервера
 app.listen(port, () => {

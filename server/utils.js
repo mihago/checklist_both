@@ -159,7 +159,7 @@ function addTemperatureBasedItems(minT, maxT, daysCount, add, checklist) {
   // === 1. Обувь (всегда в начале) ===
   add("Одежда", "Кроссовки", checklist);
   add("Одежда", "Обувь на дождь", checklist);
-  
+
   if (minT <= 0) {
     add("Одежда", "Тёплая обувь", checklist);
   }
@@ -179,7 +179,7 @@ function addTemperatureBasedItems(minT, maxT, daysCount, add, checklist) {
   }
 
   // === 3. Всё остальное (по категориям) ===
-  
+
   // Базовые вещи
   add("Одежда", "Нижнее бельё", checklist, Math.min(N, 7));
   add("Одежда", "Носки", checklist, Math.min(N, 7));
@@ -214,19 +214,27 @@ function addTemperatureBasedItems(minT, maxT, daysCount, add, checklist) {
 }
 
 function buildPersonalChecklist(data, weather, checklist_temp) {
-    /**
- * data = {
- *   gender: "female"|"male",
- *   country: string,
- *   startDate: "YYYY-MM-DD",
- *   endDate:   "YYYY-MM-DD",
- *   hobby:     "photography"|"sport"|"reading"|"other",
- *   vision:    true|false,         // есть ли проблемы со зрением
- *   specialMeds: Array<string>    // дополнительные лекарства
- * }
- * weather = { max_day_t: Number, prec_prob: Number }
- */
-  const { gender, startDate, endDate, hobby, vision, specialMeds } = data;
+  /**
+   * data = {
+   *   gender: "female"|"male",
+   *   country: string,
+   *   startDate: "YYYY-MM-DD",
+   *   endDate:   "YYYY-MM-DD",
+   *   hobby:     "photography"|"sport"|"reading"|"other",
+   *   vision:    true|false,         // есть ли проблемы со зрением
+   *   specialMeds: Array<string>    // дополнительные лекарства
+   * }
+   * weather = { max_day_t: Number, prec_prob: Number }
+   */
+  const {
+    gender,
+    startDate,
+    endDate,
+    hobbies,
+    has_eye_problems,
+    has_sleep_problems,
+    specialDrugs,
+  } = data;
   const daysCount =
     (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24) + 1;
   const N = Math.ceil(daysCount);
@@ -257,42 +265,53 @@ function buildPersonalChecklist(data, weather, checklist_temp) {
     addItemToChecklist,
     checklist
   );
-    addItemToChecklist("Аксессуары", "Зонт / дождевик", checklist);
+  addItemToChecklist("Аксессуары", "Зонт / дождевик", checklist);
 
   // 4) Хобби
-  switch (hobby) {
-    case "photography":
-      addItemToChecklist("Техника", "Фотоаппарат", checklist);
-      addItemToChecklist("Техника", "Зарядка для фотоаппарата", checklist);
-      addItemToChecklist("Техника", "Плёнка / картриджи", checklist);
-      break;
-    case "sport":
-      addItemToChecklist("Одежда", "Комплект спортивной одежды", checklist);
-      addItemToChecklist("Одежда", "Спортивные кроссовки", checklist);
-      addItemToChecklist("Техника", "Бутылка для воды", checklist);
-      break;
-    case "reading":
-      addItemToChecklist("Прочее", "Книга в дорогу", checklist);
-      addItemToChecklist("Техника", "Планшет / электронная книга", checklist);
-      addItemToChecklist("Прочее", "Закладка", checklist);
-      break;
-    case "other":
-      addItemToChecklist(
-        "Прочее",
-        `Принадлежности для хобби: ${data.hobbyDetail}`,
-        checklist
-      );
-      break;
+  function processHobbies(hobbies, checklist) {
+    hobbies.split("\n").forEach((hobby) => {
+      switch (hobby) {
+        case "photo":
+          addItemToChecklist("Техника", "Фотоаппарат", checklist);
+          addItemToChecklist("Техника", "Зарядка для фотоаппарата", checklist);
+          addItemToChecklist("Техника", "Плёнка / картриджи", checklist);
+          break;
+        case "sport":
+          addItemToChecklist("Одежда", "Комплект спортивной одежды", checklist);
+          addItemToChecklist("Одежда", "Спортивные кроссовки", checklist);
+          addItemToChecklist("Техника", "Бутылка для воды", checklist);
+          break;
+        case "book":
+          addItemToChecklist("Прочее", "Книга в дорогу", checklist);
+          addItemToChecklist(
+            "Техника",
+            "Планшет / электронная книга",
+            checklist
+          );
+          addItemToChecklist("Прочее", "Закладка", checklist);
+          break;
+        default:
+          addItemToChecklist(
+            "Прочее",
+            `Принадлежности для хобби: ${hobby}`,
+            checklist
+          );
+          break;
+      }
+    });
   }
-
+  processHobbies(hobbies, checklist);
   // 5) Зрение
-  if (vision) {
+  if (has_eye_problems) {
     addItemToChecklist("Гигиена", "Очки / линзы", checklist);
     addItemToChecklist("Гигиена", "Чехол / жидкость для линз", checklist);
   }
-  specialMeds.forEach(item =>
-    addItemToChecklist("Лекарства", item, checklist)
-  );
+  if (has_sleep_problems) {
+    addItemToChecklist("Гигиена", "Беруши", checklist);
+    addItemToChecklist("Гигиена", "Маска для сна", checklist);
+  }
+
+  specialDrugs && addItemToChecklist("Лекарства", specialDrugs, checklist);
 
   return checklist;
 }
