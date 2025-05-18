@@ -64,12 +64,12 @@ async function generatePdf(token) {
     await page.setViewport({ width: 1280, height: 720 });
 
     const CategoryColors = [
-      "rgb(184,253,97,0.15)",
-      "rgba(253,184,97,0.15)",
-      "rgba(97,184,253,0.15)",
-      "rgba(253,97,184,0.15)",
-      "rgba(97,253,184,0.15)",
-      "rgba(184,97,253,0.15)",
+      "rgb(184,253,97,0.45)",
+      "rgba(253,184,97,0.45)",
+      "rgba(97,184,253,0.45)",
+      "rgba(253,97,184,0.45)",
+      "rgba(97,253,184,0.45)",
+      "rgba(184,97,253,0.45)",
     ];
 
     let htmlContent = "";
