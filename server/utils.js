@@ -269,7 +269,7 @@ function buildPersonalChecklist(data, weather, checklist_temp) {
 
   // 4) Хобби
   function processHobbies(hobbies, checklist) {
-    hobbies.split("\n").forEach((hobby) => {
+   hobbies && hobbies.split("\n").forEach((hobby) => {
       switch (hobby) {
         case "photo":
           addItemToChecklist("Техника", "Фотоаппарат", checklist);
