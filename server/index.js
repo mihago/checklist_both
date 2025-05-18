@@ -187,13 +187,14 @@ app.post("/api/makeChecklist", async (req, res) => {
 
     // Пример использования:
     const monthsNumbers = getMonthNumbersBetween(start_date, end_date);
-    console.log()
+    console.log(monthsNumbers)
     const weatherByMonths = await Promise.all(
       monthsNumbers.map(async (index) => {
         const { data: site } = await axios.get(
           `https://yandex.ru/pogoda/month/${months[index]}?lat=${lat}&lon=${lon}&lang=ru&via=cnav`
         );
-        return { ...parseClimateData(site), monthIndex: index };
+        const res = parseClimateData(site);
+        return { ...res, monthIndex: index };
       })
     );
     console.log(weatherByMonths);
