@@ -187,7 +187,7 @@ app.post("/api/makeChecklist", async (req, res) => {
 
     // Пример использования:
     const monthsNumbers = getMonthNumbersBetween(start_date, end_date);
-    console.log(monthsNumbers)
+    console.log(monthsNumbers);
     const weatherByMonths = await Promise.all(
       monthsNumbers.map(async (index) => {
         const { data: site } = await axios.get(
