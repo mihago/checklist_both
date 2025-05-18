@@ -22,6 +22,7 @@
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 500px;
 }
 
 .card:hover {
@@ -69,8 +70,8 @@
 }
 /* Дополнительно для списка карточек */
 .weatherList {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
 }
 /* Адаптивность */
@@ -78,11 +79,6 @@
   .app {
     padding: 1rem;
   }
-.weatherList {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
   .card {
     padding: 1rem;
   }
