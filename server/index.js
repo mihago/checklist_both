@@ -31,7 +31,7 @@ const months = [
   "december",
 ];
 
-app.use(cors({ origin: ["https://preview.appmaster.io","https://ypqrtzj-app.apms.io"] }));
+app.use(cors({ origin: ["https://preview.appmaster.io","https://ypqrtzj-app.apms.io","http://localhost:5173"] }));
 app.use(express.json());
 app.use(express.text({ type: "text/plain" }));
 

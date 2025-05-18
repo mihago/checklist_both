@@ -14,5 +14,6 @@
 @media (max-width: 768px) {
     .button {
         font-size: 16px;
+        padding:0px 16px;
     }
 }
