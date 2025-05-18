@@ -210,6 +210,7 @@ app.post("/api/makeChecklist", async (req, res) => {
       endDate: end_date,
       hobbies: hobbies,
       has_eye_problems,
+      has_sleep_problems,
       special_drugs,
     };
 
