@@ -187,6 +187,7 @@ app.post("/api/makeChecklist", async (req, res) => {
 
     // Пример использования:
     const monthsNumbers = getMonthNumbersBetween(start_date, end_date);
+    console.log()
     const weatherByMonths = await Promise.all(
       monthsNumbers.map(async (index) => {
         const { data: site } = await axios.get(
@@ -195,6 +196,7 @@ app.post("/api/makeChecklist", async (req, res) => {
         return { ...parseClimateData(site), monthIndex: index };
       })
     );
+    console.log(weatherByMonths);
     // Создаем папку для чеклистов, если её нет
     const checklistsDir = path.join(__dirname, "checklists");
     if (!fs.existsSync(checklistsDir)) {
