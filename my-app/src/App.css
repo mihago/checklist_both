@@ -52,6 +52,6 @@ body {
 }
 @media(max-width:400px){
   .contentWrapper{
-  margin:0 16px;
+  margin:0 10px;
 }
 }
