@@ -44,3 +44,9 @@ body {
 .read-the-docs {
   color: #888;
 }
+.advices{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}

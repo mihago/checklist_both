@@ -2,7 +2,7 @@ import { FC } from "react";
 import styles from "./Slider.module.css";
 import Button from "../Button/Button";
 
-const tabs = ["Чеклист", "Погода", "Советы"]; // Вкладки
+const tabs = ["Чеклист", "Погода"]; // Вкладки
 
 interface SliderProps {
   activeTab: string; // Текущая активная вкладка

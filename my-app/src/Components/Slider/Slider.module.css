@@ -13,8 +13,6 @@
     flex: 1;
     border-radius: inherit; /* Закругление кнопок */
     cursor: pointer;
-    padding-right: 30px;
-    padding-left: 30px;
   }
   
   .tab:hover:not(.active) {
@@ -25,4 +23,5 @@
     background-color: #b8fd61; /* Цвет активной вкладки */
     color: black; /* Цвет текста активной вкладки */
   }
+
   

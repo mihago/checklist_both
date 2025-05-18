@@ -59,8 +59,10 @@ function App() {
   interface ChecklistState {
     [category: string]: ChecklistItemState[];
   }
-  const [items, setItems] = useState<{ [category: string]: ChecklistItemState[] }>({});
-  const [weather,setWeather] = useState(null);
+  const [items, setItems] = useState<{
+    [category: string]: ChecklistItemState[];
+  }>({});
+  const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [token, setToken] = useState("");
@@ -68,7 +70,7 @@ function App() {
   const fetchChecklist = async (token: string) => {
     try {
       const response = await fetch(`${host}/api/checklist?token=${token}`);
-      if (!response.ok) throw new Error('Failed to fetch checklist');
+      if (!response.ok) throw new Error("Failed to fetch checklist");
       const data = await response.json();
       setItems(data.checklist.checklist);
       setWeather(data.checklist.weather);
@@ -82,13 +84,13 @@ function App() {
   const saveChecklist = async (token: string, checklist: ChecklistState) => {
     try {
       const response = await fetch(`${host}/api/updateChecklist`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, checklist }),
       });
-      if (!response.ok) throw new Error('Failed to save checklist');
+      if (!response.ok) throw new Error("Failed to save checklist");
     } catch (error) {
-      console.error('Error saving checklist:', error);
+      console.error("Error saving checklist:", error);
     }
   };
 
@@ -97,7 +99,7 @@ function App() {
     const initialize = async () => {
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
-      const newToken = urlParams.get('token') ?? "";
+      const newToken = urlParams.get("token") ?? "";
       setToken(newToken);
       await fetchChecklist(newToken);
     };
@@ -107,55 +109,65 @@ function App() {
   // Автосохранение
   useEffect(() => {
     const handleBeforeUnload = () => token && saveChecklist(token, items);
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [token, items]);
 
   // Обработчики изменений
   const handleNameChange = (category: string, id: number, newName: string) => {
-    setItems(prev => ({
+    setItems((prev) => ({
       ...prev,
-      [category]: prev[category].map(item => 
+      [category]: prev[category].map((item) =>
         item.id === id ? { ...item, name: newName } : item
       ),
     }));
   };
 
-  const handleCountChange = (category: string, id: number, newCount: number | undefined) => {
-    setItems(prev => ({
+  const handleCountChange = (
+    category: string,
+    id: number,
+    newCount: number | undefined
+  ) => {
+    setItems((prev) => ({
       ...prev,
-      [category]: prev[category].map(item => 
+      [category]: prev[category].map((item) =>
         item.id === id ? { ...item, count: newCount } : item
       ),
     }));
   };
 
   const handleDelete = (category: string, id: number) => {
-    const item = items[category].find(item => item.id === id);
+    const item = items[category].find((item) => item.id === id);
     if (item) {
-      setItems(prev => ({
+      setItems((prev) => ({
         ...prev,
-        [category]: prev[category].filter(item => item.id !== id),
-        "Удалённые": [...(prev["Удалённые"] || []), { ...item, isDeleted: true, prevCategory: category }]
+        [category]: prev[category].filter((item) => item.id !== id),
+        Удалённые: [
+          ...(prev["Удалённые"] || []),
+          { ...item, isDeleted: true, prevCategory: category },
+        ],
       }));
     }
   };
 
   const handleRestore = (id: number) => {
-    const item = items["Удалённые"]?.find(item => item.id === id);
+    const item = items["Удалённые"]?.find((item) => item.id === id);
     if (item && item.prevCategory) {
-      setItems(prev => ({
+      setItems((prev) => ({
         ...prev,
-        "Удалённые": prev["Удалённые"]?.filter(item => item.id !== id),
-        [item.prevCategory!]: [...(prev[item.prevCategory!] || []), { ...item, isDeleted: false, prevCategory: undefined }]
+        Удалённые: prev["Удалённые"]?.filter((item) => item.id !== id),
+        [item.prevCategory!]: [
+          ...(prev[item.prevCategory!] || []),
+          { ...item, isDeleted: false, prevCategory: undefined },
+        ],
       }));
     }
   };
 
   const handleToggleCompleted = (category: string, id: number) => {
-    setItems(prev => ({
+    setItems((prev) => ({
       ...prev,
-      [category]: prev[category].map(item => 
+      [category]: prev[category].map((item) =>
         item.id === id ? { ...item, completed: !item.completed } : item
       ),
     }));
@@ -167,38 +179,52 @@ function App() {
       name,
       count: hasCount ? 1 : undefined,
       completed: false,
-      isDeleted: false
+      isDeleted: false,
     };
-    setItems(prev => ({
+    setItems((prev) => ({
       ...prev,
-      [category]: [...(prev[category] || []), newItem]
+      [category]: [...(prev[category] || []), newItem],
     }));
   };
   return (
     <>
-      <Header saveChecklist={()=>saveChecklist(token,items)} token={token}></Header>
+      <Header
+        saveChecklist={() => saveChecklist(token, items)}
+        token={token}
+      ></Header>
       <Slider activeTab={selectedTab} onTabChange={handleTabChange} />
       <div className="contentWrapper">
-      {/* Отображение контента в зависимости от выбранной вкладки */}
+        {/* Отображение контента в зависимости от выбранной вкладки */}
 
-
-      {selectedTab === "Чеклист" &&    <Checklist
-      items={items}
-      loading={loading}
-      error={error}
-      onNameChange={handleNameChange}
-      onCountChange={handleCountChange}
-      onDelete={handleDelete}
-      onRestore={handleRestore}
-      onToggleCompleted={handleToggleCompleted}
-      onAddItem={handleAddItem}
-    />}
-      {selectedTab === "Погода" && weather?<WeatherDisplay weatherData={weather}></WeatherDisplay>:<div>Загрузка...</div>}
-      {selectedTab === "Советы" && <div>Контент для Советов</div>}
+        {selectedTab === "Чеклист" && (
+          <Checklist
+            items={items}
+            loading={loading}
+            error={error}
+            onNameChange={handleNameChange}
+            onCountChange={handleCountChange}
+            onDelete={handleDelete}
+            onRestore={handleRestore}
+            onToggleCompleted={handleToggleCompleted}
+            onAddItem={handleAddItem}
+          />
+        )}
+        {selectedTab === "Погода" && weather ? (
+          <WeatherDisplay weatherData={weather}></WeatherDisplay>
+        ) : (
+          <div>Загрузка...</div>
+        )}
+        {/* {selectedTab === "Советы" && (
+          <ul className="advices">
+            <li>- Налей гель, шампунь в маленькие бутылочки</li>
+            <li>- Используй вакуумные пакеты для того, чтобы вещи занимали меньше места </li>
+            <li>- Вещи можно скручивать
+            вместо складывания - так они меньше мнутся</li>
+          </ul>
+        )} */}
       </div>
     </>
   );
 }
 
 export default App;
-

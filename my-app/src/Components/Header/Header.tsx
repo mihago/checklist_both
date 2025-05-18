@@ -10,7 +10,7 @@ interface HeaderProps{
   const Header = ({saveChecklist,token}:HeaderProps) => {
     
     return <header className={styles.header}>
-       <Button color="#FFD966">Заполнить анкету заново</Button>
+       <Button color="#FFD966">Оставить фидбэк</Button>
        <DropdownMenu saveChecklist = {saveChecklist} token={token}></DropdownMenu>
     </header>
   };
