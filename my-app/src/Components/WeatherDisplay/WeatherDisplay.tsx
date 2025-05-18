@@ -58,8 +58,6 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weatherData }) => {
 
   return (
     <div className={styles.app}>
-      <h1 className={styles.title}>Погода в Москве</h1>
-
       <div className={styles.weatherList}>
         {weatherData.map((data, index) => (
           <WeatherCard
