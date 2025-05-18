@@ -23,6 +23,7 @@ function addItemToChecklist(category, name, checklist, count) {
 
 function getMonthNumbersBetween(startDate, endDate) {
   endDate.replace("+0300","");
+  console.log(endDate);
   const start = new Date(startDate);
   const end = new Date(endDate);
   const result = [];
