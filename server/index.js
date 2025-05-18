@@ -156,6 +156,12 @@ app.post("/api/makeChecklist", async (req, res) => {
           message: "Token is required in JSON body",
         });
       }
+      if (!start_date||!end_date) {
+        return res.status(400).json({
+          success: false,
+          message: "Dates are required in JSON body",
+        });
+      }
     } else {
       console.log("here2");
       return res.status(400).json({
