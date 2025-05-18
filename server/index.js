@@ -292,13 +292,14 @@ app.post("/api/updateChecklist", (req, res) => {
   const fileName = `${token}_checklist.json`;
   const filePath = path.join(__dirname, "checklists", fileName);
   try {
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-    const checklist = JSON.parse(fileContent);
+    const fileContentBeforeUpdate = fs.readFileSync(filePath, "utf-8");
+    const checklist = JSON.parse(fileContentBeforeUpdate);
     // Преобразуем обновленный чеклист в строку JSON
-    checklist.checklist = JSON.stringify(updatedChecklist, null, 2);
+    checklist.checklist = updatedChecklist;
+    const fileContentAfterUpdate = JSON.stringify(checklist,null,2);
 
     // Записываем обновленный чеклист в файл
-    fs.writeFileSync(filePath, fileContent);
+    fs.writeFileSync(filePath, fileContentAfterUpdate);
 
     res.status(200).json({
       success: true,
