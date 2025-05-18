@@ -73,6 +73,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
+  justify-content: center;
 }
 /* Адаптивность */
 @media (max-width: 768px) {
