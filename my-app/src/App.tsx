@@ -109,6 +109,11 @@ function App() {
     useEffect(() => {
     ReactGA.initialize('G-55V95JTGT3');
     ReactGA.send({ hitType: 'pageview', page: window.location.pathname+"notappmaster" });
+    ReactGA.event({
+  category: 'user',
+  action: 'login_attempt',
+  label: 'login_button',
+});
   }, []);
 
   // Автосохранение
