@@ -31,7 +31,7 @@ const months = [
   "december",
 ];
 
-app.use(cors({ origin: ["https://preview.appmaster.io","https://ypqrtzj-app.apms.io","http://localhost:5173"] }));
+app.use(cors({ origin: ["https://preview.appmaster.io","https://ypqrtzj-app.apms.io"] }));
 app.use(express.json());
 app.use(express.text({ type: "text/plain" }));
 
@@ -175,7 +175,12 @@ app.post("/api/makeChecklist", async (req, res) => {
     const { data } = await axios.get(
       `https://geocode-maps.yandex.ru/v1/?apikey=${process.env.API_KEY}&geocode=${place}&format=json`
     );
-    const firstResult = data.response.GeoObjectCollection.featureMember[0];
+    let firstResult;
+    if(data.response.GeoObjectCollection.featureMember[0]){
+       firstResult = data.response.GeoObjectCollection.featureMember[0]
+    }else{
+      throw(new Error("Не нашлось такого места"));
+    }
     const [lon, lat] = firstResult.GeoObject.Point.pos.split(" ");
 
     // Получаем данные о погоде
