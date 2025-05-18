@@ -78,9 +78,9 @@ async function generatePdf(token) {
       if (category === "Удалённые") continue;
 
       htmlContent += `
-        <div class="categoryWrapper" style="background: ${
+        <div class="categoryWrapper" style="border: ${
           CategoryColors[i % 6]
-        }">
+        } solid 3px">
           <div class="title">${category}</div>
           <div class="itemsContainer">
       `;
