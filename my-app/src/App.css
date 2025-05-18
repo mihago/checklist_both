@@ -50,3 +50,8 @@ body {
   flex-direction: column;
   text-align: center;
 }
+@media(max-width:400px){
+  .contentWrapper{
+  margin:0 16px;
+}
+}

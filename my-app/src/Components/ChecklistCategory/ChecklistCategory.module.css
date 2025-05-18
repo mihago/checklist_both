@@ -9,9 +9,7 @@
     width:40%;
     min-width:  320px;
     max-width: 400px;
-    padding-left: 20px;
-    padding-bottom:20px;
-    padding-right: 20px;
+    padding: 0 20px 20px 20px;
     border-radius: 20px;
     flex-grow: 2;
     border:solid 2px black;
@@ -63,3 +61,12 @@
         font-size: 24px;
     }
 }
+  @media (max-width: 400px) {
+  .categoryWrapper{
+
+      padding: 0 4px 4px 4px;
+
+  }
+}
+
+
