@@ -280,9 +280,9 @@ app.post("/api/generatePDF", (req, res) => {
     });
 });
 app.post("/api/updateChecklist", (req, res) => {
-  const { token, checklist } = req.body;
+  const { token, checklist:updatedChecklist } = req.body;
 
-  if (!token || !checklist) {
+  if (!token || !updatedChecklist) {
     return res.status(400).json({
       success: false,
       message: "Token and checklist are required",
@@ -291,10 +291,11 @@ app.post("/api/updateChecklist", (req, res) => {
 
   const fileName = `${token}_checklist.json`;
   const filePath = path.join(__dirname, "checklists", fileName);
-
   try {
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+    const checklist = JSON.parse(fileContent);
     // Преобразуем обновленный чеклист в строку JSON
-    const fileContent = JSON.stringify(checklist, null, 2);
+    checklist.checklist = JSON.stringify(updatedChecklist, null, 2);
 
     // Записываем обновленный чеклист в файл
     fs.writeFileSync(filePath, fileContent);
@@ -333,6 +334,7 @@ app.get("/checklist", (req, res) => {
   app.use(express.static(path.join(__dirname, "dist")));
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
+
 app.get("/healthcheck", (req, res) => {
   console.log("healthcheck");
   res.status(200).json({
