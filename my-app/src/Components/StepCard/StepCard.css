@@ -1,0 +1,41 @@
+.step-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;             /* отступ между номером и контентом */
+  padding: 16px;         /* внутренние отступы */
+  background-color: #FEF3C7; /* светло-жёлтый фон */
+  border-radius: 12px;   /* скругление углов */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.step-card__number {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;        /* тёмно-серый текст */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius:100px;
+  border: 1px solid black;
+}
+
+.step-card__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 4px;
+}
+
+.step-card__description {
+  font-size: 14px;
+  color: #4B5563;        /* более светлый серый */
+  line-height: 1.4;
+}

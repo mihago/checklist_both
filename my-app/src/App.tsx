@@ -42,6 +42,7 @@ import Slider from "./Components/Slider/Slider";
 import Checklist from "./Components/Checklist/Checklist";
 import host from "./constants";
 import WeatherDisplay from "./Components/WeatherDisplay/WeatherDisplay";
+import ReactGA from 'react-ga4';
 
 function App() {
   const [selectedTab, setSelectedTab] = useState("Чеклист");
@@ -104,6 +105,10 @@ function App() {
       await fetchChecklist(newToken);
     };
     initialize();
+  }, []);
+    useEffect(() => {
+    ReactGA.initialize('G-55V95JTGT3');
+    ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
   }, []);
 
   // Автосохранение
