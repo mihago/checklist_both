@@ -109,7 +109,10 @@ function App() {
     useEffect(() => {
     ReactGA.initialize('G-55V95JTGT3');
     ReactGA.send({ hitType: 'pageview', page: window.location.pathname+"notappmaster" });
-    ReactGA.event("view_weather",token);
+    ReactGA.event({
+      category: 'user',
+      action: 'purchase'
+    });
   }, []);
 
   // Автосохранение
