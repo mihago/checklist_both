@@ -1,4 +1,3 @@
-import React from 'react';
 import './FeatureList.css';
 
 const features = [
