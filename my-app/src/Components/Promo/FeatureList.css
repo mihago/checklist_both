@@ -1,4 +1,5 @@
 .feature-list {
+  text-align: left;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -23,6 +24,8 @@
   display: inline-flex;
   width: 24px;
   height: 24px;
+  border: 1px solid #292D32;
+  border-radius: 100px;
 }
 
 .feature-list__text {

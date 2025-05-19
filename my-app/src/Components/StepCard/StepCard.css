@@ -1,4 +1,6 @@
+
 .step-card {
+  text-align: left;
   display: flex;
   align-items: flex-start;
   gap: 16px;             /* отступ между номером и контентом */

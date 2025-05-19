@@ -19,10 +19,10 @@ const FeatureList = () => (
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <circle cx="12" cy="12" r="12" fill="#BBF7D0" />
+            <circle cx="12" cy="12" r="12" fill="#90FD06" />
             <path
               d="M17 8L10 15L7 12"
-              stroke="#047857"
+              stroke="#292D32"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
