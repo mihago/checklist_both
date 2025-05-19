@@ -289,7 +289,12 @@ function buildPersonalChecklist(data, weather, checklist_temp) {
             "Планшет / электронная книга",
             checklist
           );
-          addItemToChecklist("Прочее", "Закладка", checklist);
+          break;
+        case "art":
+          addItemToChecklist("Прочее", "Принадлежности для рисования", checklist);
+          break;
+        case "cook":
+
           break;
         default:
           addItemToChecklist(
