@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./DropdownMenu.module.css"; // Подключаем стили
 import Button from "../Button/Button";
 import host from "../../constants";
+import ReactGA from 'react-ga4';
 
 interface DropdownMenuProps{
   saveChecklist:()=>void,
@@ -11,7 +12,9 @@ const DropdownMenu = ({saveChecklist,token}:DropdownMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null); 
   const handleGeneratePdf = async () => {
+    ReactGA.event("downloadPDF"+token);
     await saveChecklist();
+
 
     const response = await fetch(`${host}/api/generatePDF`, {
       method: 'POST',
