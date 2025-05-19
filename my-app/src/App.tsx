@@ -49,7 +49,7 @@ function App() {
   const handleTabChange = (tab: string) => {
     setSelectedTab(tab);
     if(tab==="Погода"){
-      ReactGA.event("view_weather"+token);
+      ReactGA.event("view_weather-"+token);
     }
   };
   interface ChecklistItemState {
