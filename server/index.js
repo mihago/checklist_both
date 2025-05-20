@@ -322,6 +322,11 @@ app.post("/api/updateChecklist", (req, res) => {
     });
   }
 });
+app.get("/promo", (req, res) => {
+  app.use(express.static(path.join(__dirname, "dist_promo")));
+  res.sendFile(path.join(__dirname, "dist_promo", "index.html"));
+});
+
 app.get("/checklist", (req, res) => {
   const { token } = req.query;
   if (!token) {
@@ -341,8 +346,8 @@ app.get("/checklist", (req, res) => {
       message: "Checklist file not found",
     });
   }
-  app.use(express.static(path.join(__dirname, "dist")));
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  app.use(express.static(path.join(__dirname, "dist_checklist")));
+  res.sendFile(path.join(__dirname, "dist_checklist", "index.html"));
 });
 
 app.get("/healthcheck", (req, res) => {
