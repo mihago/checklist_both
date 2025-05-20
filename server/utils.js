@@ -75,7 +75,7 @@ async function generatePdf(token) {
 
     let htmlContent = "";
     let i = 0;
-    for (const category in checklist) {
+    for (const category in checklist.checklist) {
       if (category === "Удалённые") continue;
 
       htmlContent += `
