@@ -288,6 +288,40 @@ app.post("/api/generatePDF", (req, res) => {
       res.status(500).send("Error generating PDF");
     });
 });
+app.get("/api/generatePDF", (req, res) => {
+  const { token } = req.query; // Получаем token из query-параметров
+  const filePath = path.join(__dirname, "checklist.pdf");
+
+  generatePdf(token)
+    .then((pdfBuffer) => {
+      fs.writeFile(filePath, pdfBuffer, (err) => {
+        if (err) {
+          console.error("Error saving PDF:", err);
+          res.status(500).send("Error saving PDF");
+        } else {
+          res.download(filePath, (err) => {
+            if (err) {
+              console.error("Error sending PDF:", err);
+              res.status(500).send("Error sending PDF");
+            } else {
+              // Удаляем файл после отправки, чтобы не засорять сервер
+              fs.unlink(filePath, (err) => {
+                if (err) {
+                  console.error("Error deleting PDF:", err);
+                }
+              });
+            }
+          });
+        }
+      });
+    })
+    .catch((err) => {
+      console.error("Error generating PDF:", err);
+      res.status(500).send("Error generating PDF");
+    });
+});
+
+
 app.post("/api/updateChecklist", (req, res) => {
   const { token, checklist:updatedChecklist } = req.body;
 
