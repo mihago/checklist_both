@@ -18,7 +18,7 @@ export default function Promo() {
   }, []);
   return (
     <div className={styles.page}>
-      <Heading>Чек-лист - помощник по сбору вещей на мобильность</Heading>
+      <Heading>Чек-лист - помощник по сбору вещей в поездку</Heading>
       <p className={styles.description}>
         Поможем составить список вещей для твоей поездки
       </p>
