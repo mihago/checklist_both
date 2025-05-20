@@ -9,15 +9,15 @@ interface HeaderProps {
 const Header = ({ saveChecklist, token }: HeaderProps) => {
   return (
     <header className={styles.header}>
-      <Button color="#FFD966" className={styles.feedbackButton}>
-        <a
+              <a
           href="https://docs.google.com/forms/d/e/1FAIpQLSerjFNlP8XTfvH781htmFql2vkdgzWaQai003UzZ9mAfMfJiA/viewform?usp=dialog"
           target="_blank"
           rel="noopener noreferrer"
         >
+      <Button color="#FFD966" className={styles.feedbackButton}>
           Оставить фидбэк
-        </a>
       </Button>
+              </a>
       <DropdownMenu saveChecklist={saveChecklist} token={token}></DropdownMenu>
     </header>
   );
