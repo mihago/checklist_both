@@ -29,19 +29,21 @@ function getMonthNumbersBetween(startDate, endDate) {
 
   let currentYear = start.getFullYear();
   let currentMonth = start.getMonth();
-
-  while (
-    currentYear < end.getFullYear() ||
-    (currentYear === end.getFullYear() && currentMonth <= end.getMonth())
+  let i=0;
+  while (i<12&&
+    (currentYear < end.getFullYear() ||
+    (currentYear === end.getFullYear() && currentMonth <= end.getMonth()))
   ) {
     result.push(currentMonth);
     currentMonth++;
+    i++;
     if (currentMonth > 11) {
       currentMonth = 0;
       currentYear++;
     }
   }
-
+  console.log(i);
+  if(i==12) result.sort((a,b)=>+a-+b);
   return result;
 }
 
