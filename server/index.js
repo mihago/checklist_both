@@ -258,7 +258,7 @@ app.post("/api/makeChecklist", async (req, res) => {
 
 app.post("/api/generatePDF", (req, res) => {
   const { token } = req.body;
-  const filePath = path.join(__dirname, "output.pdf");
+  const filePath = path.join(__dirname, "checklist.pdf");
 
   generatePdf(token)
     .then((pdfBuffer) => {

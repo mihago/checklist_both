@@ -72,9 +72,7 @@ const DropdownMenu = ({saveChecklist,token}:DropdownMenuProps) => {
       </Button>
       {isOpen && (
         <div className={styles.menu}>
-          {/*TODO: Заменить мокапы на реальные функции */}
           <button className={styles.menuItem} onClick={ handleGeneratePdf}>как PDF</button>
-          <button className={styles.menuItem} onClick={() => { alert("jpg") }}>как JPEG</button>
         </div>
       )}
     </div>
