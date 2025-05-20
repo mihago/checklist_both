@@ -49,7 +49,7 @@ function App() {
   const handleTabChange = (tab: string) => {
     setSelectedTab(tab);
     if(tab==="Погода"){
-      ReactGA.event("view_weather-"+token);
+      ReactGA.event("view_weather_"+token);
     }
   };
   interface ChecklistItemState {
@@ -112,6 +112,7 @@ function App() {
     useEffect(() => {
     ReactGA.initialize('G-55V95JTGT3');
     ReactGA.send({ hitType: 'pageview', page: window.location.pathname+"notappmaster" });
+    ReactGA.event("open_checklist_"+token)
   }, []);
 
   // Автосохранение

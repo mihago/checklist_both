@@ -312,7 +312,7 @@ function buildPersonalChecklist(data, weather, checklist_temp) {
     addItemToChecklist("Гигиена", "Очки / линзы", checklist);
     addItemToChecklist("Гигиена", "Чехол / жидкость для линз", checklist);
   }
-  if (has_sleep_problems) {
+  if (hReactas_sleep_problems) {
     addItemToChecklist("Гигиена", "Беруши", checklist);
     addItemToChecklist("Гигиена", "Маска для сна", checklist);
   }

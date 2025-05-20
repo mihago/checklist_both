@@ -12,7 +12,7 @@ const DropdownMenu = ({saveChecklist,token}:DropdownMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null); 
   const handleGeneratePdf = async () => {
-    ReactGA.event("downloadPDF"+token);
+    ReactGA.event("download_pdf_"+token);
     await saveChecklist();
 
 
