@@ -86,7 +86,7 @@ async function generatePdf(token) {
           <div class="itemsContainer">
       `;
 
-      for (const item of checklist[category]) {
+      for (const item of checklist.checklist[category]) {
         htmlContent += `
             <div class="item">
               <input type="checkbox" class="checkbox" />
@@ -312,7 +312,7 @@ function buildPersonalChecklist(data, weather, checklist_temp) {
     addItemToChecklist("Гигиена", "Очки / линзы", checklist);
     addItemToChecklist("Гигиена", "Чехол / жидкость для линз", checklist);
   }
-  if (hReactas_sleep_problems) {
+  if (has_sleep_problems) {
     addItemToChecklist("Гигиена", "Беруши", checklist);
     addItemToChecklist("Гигиена", "Маска для сна", checklist);
   }
