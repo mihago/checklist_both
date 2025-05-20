@@ -15,6 +15,10 @@
     z-index: 52;
 
 }
+.feedbackButton a{
+    text-decoration: none;
+    color: inherit;
+}
 @media(max-width:460px){
 .header{
     padding: 0 16px;
